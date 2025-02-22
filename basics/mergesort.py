@@ -2,26 +2,23 @@ def debug_print(debug_msg=None, **kwargs):
     if debug_msg:
         print(debug_msg)
     for key, value in kwargs.items():
-        print("{}: {}".format(key, value))
+        print(f"{key}: {value}")
 
 def mergesort(array):
     if len(array) <= 1:
         return array
 
     m = len(array) // 2
-    debug_print(array=array, m=m)
+    debug_print("Splitting", array=array, m=m)
 
     left = mergesort(array[:m])
     right = mergesort(array[m:])
 
-    debug_print(left=left)
-    debug_print(right=right)
-
+    debug_print("Merging", left=left, right=right)
     return merge(left, right)
 
 def merge(left, right):
     merged = []
-    debug_print(left=left, right=right)
 
     while len(left) > 0 and len(right) > 0:
         if left[0] <= right[0]:
@@ -29,27 +26,23 @@ def merge(left, right):
         else:
             merged.append(right.pop(0))
 
-    if len(left) > 0:
-        merged += left
-    else:
-        merged += right
+    merged += left + right
 
-    debug_print(merged=merged)
+    debug_print("Merged result", merged=merged)
     return merged
 
 if __name__ == "__main__":
     input_str = input("Enter numbers, separated by ',': ")
     input_list = input_str.split(",")
+
     value_list = []
-    
     for x in input_list:
         try:
             value_list.append(int(x))
-        except ValueError as err:
+        except ValueError:
             print("Invalid input.")
             quit(1)
 
-    debug_print(input_list=input_list, value_list=value_list)
-
+    debug_print("Initial input", input_list=input_list, value_list=value_list)
     sorted_list = mergesort(value_list)
     print(sorted_list)
